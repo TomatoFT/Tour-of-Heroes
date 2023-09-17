@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<div *ngIf="hero" class="container">
+  <h2>Update the Hero</h2>
+  <div><span>id: </span>{{ hero.id }}</div>
+  <form [formGroup]="heroForm" (ngSubmit)="onClickSubmit()">
+    <div>
+      <label for="hero-name">Hero name:</label>
+      <input type="text" id="hero-name" class="form-control"
+             required minlength="4" [(ngModel)]="hero.name" formControlName="name" >
+
+      <div *ngIf="heroForm.controls['name']?.invalid"
+           class="alert alert-danger">
+
+        <div *ngIf="heroForm.controls['name'].errors?.['required']" class="error-message">
+          <i class="fas fa-exclamation-triangle"></i> Name is required.
+        </div>
+        <div *ngIf="heroForm.controls['name'].errors?.['minlength']" class="error-message">
+          <i class="fas fa-exclamation-triangle"></i> Name must be at least 4 characters long.
+        </div>
+
+      </div>
+
+    </div>
+
+    <label for="hero-skill">Hero skill:</label>
+    <input type="text" id="hero-skill" name="skill" class="form-control"
+           required [(ngModel)]="hero.skill" formControlName="skill">
+    <div *ngIf="heroForm.controls['skill']?.invalid"
+         class="alert alert-danger">
+      <div *ngIf="heroForm.controls['skill'].errors?.['required']" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> Hero skill is required.
+      </div>
+    </div>
+
+    <label for="hero-position">Hero position:</label>
+    <input type="text" id="hero-position" name="position" class="form-control"
+           required [(ngModel)]="hero.position" formControlName="position" formControlName="position">
+           
+    <div *ngIf="heroForm.controls['position'].invalid"
+         class="alert alert-danger">
+      <div *ngIf="heroForm.controls['position'].errors?.['required']" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> Hero position is required.
+      </div>
+    </div>
+
+    <label for="hero-hp">Hero HP:</label>
+    <input type="number" id="hero-hp" name="hp" class="form-control"
+           required [(ngModel)]="hero.hp" formControlName="hp">
+    <div *ngIf="heroForm.controls['hp'].invalid"
+         class="alert alert-danger">
+      <div *ngIf="heroForm.controls['hp'].errors?.['required']" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> Hero HP is required.
+      </div>
+      <div *ngIf="heroForm.controls['hp'].errors?.['min']" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i> Hero HP must be at least 0.
+      </div>
+    </div>
+
+    <button type="submit" (click)="onClickSubmit()">Save</button>
+    <button type="button" (click)="goBack()">Go Back</button>
+
+  </form>
+</div>

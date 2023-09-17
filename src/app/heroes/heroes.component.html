@@ -1,0 +1,99 @@
+<!-- Existing table code -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<h2>Heroes Managements</h2>
+<table class="heroes heroes-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Skill</th>
+      <th>Position</th>
+      <th>HP</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let hero of heroes">
+      <td>{{ hero.id }}</td>
+      <td>{{ hero.name }}</td>
+      <td>{{ hero.skill }}</td>
+      <td>{{ hero.position }}</td>
+      <td>{{ hero.hp }}</td>
+      <td>
+        <a routerLink="/views/{{ hero.id }}">
+          <button class="read-button">
+            <i class="fas fa-eye"></i>
+          </button>
+        </a>
+        <a routerLink="/detail/{{ hero.id }}">
+          <button class="update-button">
+            <i class="fas fa-edit"></i>
+          </button>
+        </a>
+        <button type="button" class="delete-button" title="delete hero" (click)="delete(hero)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Add a button for adding a hero -->
+<button class="add-button" (click)="openModal()">
+  <i class="fas fa-plus"></i> Add new hero
+</button>
+
+<!-- Modal -->
+<div class="modal add-hero-windows" [ngClass]="{ 'open': isModalOpen }">
+  <div class="modal-content" *ngIf="isModalOpen" >
+    <form [formGroup]="addHeroForm" (ngSubmit)="onClickAddHero()">
+    <h3>Add the new hero</h3>
+    <!-- Hero information input fields -->
+    <p>
+      <span>Enter the name: </span> 
+      <input type="text" minlength="4" placeholder="Name" 
+      formControlName="name" required>
+    </p>
+
+   <div *ngIf="addHeroForm.controls['name'].errors?.['required'] && isShowAlert" class="error-message">
+    <i class="fas fa-exclamation-triangle"></i> Name is required.
+   </div>
+   <div *ngIf="addHeroForm.controls['name'].errors?.['minlength'] && isShowAlert" class="error-message">
+    <i class="fas fa-exclamation-triangle"></i> Name must be at least 4 characters long.
+   </div>
+
+    <p>
+      <span>Enter the skill: </span> 
+      <input type="text" placeholder="Skill" 
+       formControlName="skill" required>
+
+    </p>
+    <div *ngIf="addHeroForm.controls['skill'].errors?.['required']  && isShowAlert" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> Skill is required.
+    </div>
+
+    <p>
+      <span>Enter the position: </span> 
+      <input type="text" placeholder="Position" 
+       formControlName="position" required>
+    </p>
+
+    <div *ngIf="addHeroForm.controls['position'].errors?.['required']  && isShowAlert" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> Position is required.
+    </div>
+
+    <p>
+      <span>Enter the HP: </span>
+       <input type="number" placeholder="0"
+        formControlName="hp" required>
+       
+    </p>
+    <div *ngIf="addHeroForm.controls['hp'].errors?.['required'] && isShowAlert" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i> HP is required.
+    </div>
+
+    <button class="add-button" type="submit">Save</button>
+    <button class="cancel-button" (click)="closeModal()">Cancel</button>
+  </form>
+  </div>
+</div>
